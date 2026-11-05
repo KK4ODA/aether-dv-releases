@@ -1,43 +1,43 @@
 {
-  "version": "0.3.2",
-  "notes": "**Fix: larger files on DV slow data.** In the bench test a 20 kB file got stuck at 0 blocks. Aether DV wrote about 1,260 bytes to the IC-9700 at once, but the radio keeps only about one transmission's worth and drops the rest. Every block arrived cut short.\n\n- **Radio-sized pieces.** On DV slow data, Aether DV writes at most 180 bytes of whole frames at a time, lets each piece go on the air, then writes the next. It checks the radio's \"wait\" signal before every write.\n- **Smaller file blocks:** 120 bytes, so each block fits in one transmission. D-RATS stations accept any block size.\n- **Expect about 25\u201330 bytes per second** for files on DV slow data with these radios, because each block takes its own transmission. A 5 kB file takes a few minutes. DV Fast Data is the faster option, still to be tested.\n- **Header:** a call sign with an SSID (KK4ODA-1) gets its own line under the name, instead of wrapping.\n\nStill **tested on the bench only**: two radios on simplex, no repeaters or D-RATS stations yet.",
-  "pub_date": "2026-11-05T02:51:04Z",
+  "version": "0.3.3",
+  "notes": "**Faster, cleaner file transfers on DV slow data.** In the 0.3.2 bench test a 5 kB file arrived, but slowly (about 12 bytes per second). Writing 4 blocks to the IC-9700 takes 12\u201320 seconds, one transmission per block. The retry timer kept running meanwhile and expired before the last block was on the air. The radio then asked for an acknowledgement while the other station was answering, and the two transmissions collided.\n\n- **Transfer timers wait while a burst is being written.** They start counting only once the radio has taken all of it. This removes the collisions and the resends they caused.\n- **Radio test summary:** a new **overs** column shows how many transmissions each burst took. Key-up and air time are left blank for bursts sent in several transmissions, where they can't be measured.\n\nStill **tested on the bench only**: two radios on simplex, no repeaters or D-RATS stations yet.",
+  "pub_date": "2026-11-05T12:30:20Z",
   "platforms": {
     "linux-x86_64-rpm": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VGpHbnVkWmJNTFVJRm5jVHRLd2x3OHlUN2YzeU5TcTVnQUw1UHdLWTRUR25jODVOYXgvRVNwU1FiVWQxSWxKNllCOU9pdnVLam1KYlRLTzBVSFExYkF3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ2ODY5CWZpbGU6QWV0aGVyIERWLTAuMy4yLTEueDg2XzY0LnJwbQl2ZXJzaW9uOjAuMy4yCnhkZ3NBUVJsNFpWOEJpa2Q3ZjgzR2gxbUlpbWxHQkdKWkVML0tJSW96Nm9nTU9jNVhOWFAxUjQzUWFPeUNOUWxSKzRGbTFTZng4ZlJvUkVzNXNqZ0F3PT0K",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV-0.3.2-1.x86_64.rpm"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VG1LUG1FY2dSeFhINWx6STJGZk9QYjJqLzU2aXdSaWFyOEhJci9kZm92amxKdkxGNXQyZ1FrbHhjWkFXZnhzYnE5dGxHMVU0eC9SSGs3Y2dyQVFMTFFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgxMzMxCWZpbGU6QWV0aGVyIERWLTAuMy4zLTEueDg2XzY0LnJwbQl2ZXJzaW9uOjAuMy4zCit6aC9yTzhMaEU3R2ZTRkJuV2E5QzFIUGJkenlwT281NUJLcUxCQy93NDZxZktkVkkzUnRzL1J3Q1pRbGRpNXE3aEJXMlFMWHZIdExMS09hemh3MUJnPT0K",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV-0.3.3-1.x86_64.rpm"
     },
     "darwin-aarch64-app": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VG9WVy83Wk5lTXFZeUtOSS9oeERlMkc2RjZ2ckVINzQvUVR6Um9QckRmM3k2VldwYngxSlJnU3p6YXFIczZyOTFUMzNjKzZVQlAwaXhCcUtBYkwxU3drPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ1Nzk2CWZpbGU6QWV0aGVyIERWLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMgoxZ2s1b0RYbzNWY2pqTGRwVFZFbmFVbXN4WnJ6bnEvT2drOW9hNUhrRHUwNGhJaVBWUUJYaFBla25OaFF5WE1XVS9FNEFSZ2UwN2pTSWJhR0VmZmxCQT09Cg==",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VGpsbEZWZjJoUko0bVYrc0hVSTJ0N1ZvREplNzdFcCszaXowRVRQTTA1KzNyVVR0RHpOR2RGdk9TWGx5Mko5enMzK2Z3NGRUVUcxL0h1S2MvN2ZvMWdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgwMjAzCWZpbGU6QWV0aGVyIERWLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMwpvclhzaDVmLzZISE02eWVteFJvKzRjbzl1U0F5bHBXWVlRaGJNR0V2a3VUQ2lySlFqYUhpZlZjb2ZYbUtvSEJYU3JvWG9DalcwOUx5OVdnZEhXTjFBQT09Cg==",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV.app.tar.gz"
     },
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VG9WVy83Wk5lTXFZeUtOSS9oeERlMkc2RjZ2ckVINzQvUVR6Um9QckRmM3k2VldwYngxSlJnU3p6YXFIczZyOTFUMzNjKzZVQlAwaXhCcUtBYkwxU3drPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ1Nzk2CWZpbGU6QWV0aGVyIERWLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMgoxZ2s1b0RYbzNWY2pqTGRwVFZFbmFVbXN4WnJ6bnEvT2drOW9hNUhrRHUwNGhJaVBWUUJYaFBla25OaFF5WE1XVS9FNEFSZ2UwN2pTSWJhR0VmZmxCQT09Cg==",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VGpsbEZWZjJoUko0bVYrc0hVSTJ0N1ZvREplNzdFcCszaXowRVRQTTA1KzNyVVR0RHpOR2RGdk9TWGx5Mko5enMzK2Z3NGRUVUcxL0h1S2MvN2ZvMWdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgwMjAzCWZpbGU6QWV0aGVyIERWLmFwcC50YXIuZ3oJdmVyc2lvbjowLjMuMwpvclhzaDVmLzZISE02eWVteFJvKzRjbzl1U0F5bHBXWVlRaGJNR0V2a3VUQ2lySlFqYUhpZlZjb2ZYbUtvSEJYU3JvWG9DalcwOUx5OVdnZEhXTjFBQT09Cg==",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV.app.tar.gz"
     },
     "linux-x86_64-appimage": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VGh2eUZlaElCTXlUOUFLSEphR2QyTEVkdUY1N2FKcFp4M3Q1SGV6eHRFdzR0c1FYcHUzM2k5QjlvTVZNd1phWXRYQlR6Q1BBdTVNaWJCVWZ2R2I5MUFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ2ODY5CWZpbGU6QWV0aGVyIERWXzAuMy4yX2FtZDY0LkFwcEltYWdlCXZlcnNpb246MC4zLjIKeU8vWWEvblhUK2sveEZ5S2d4WVo1bExnSVZXODJvdHJyUER6M2JTQ1Z0cVREZEx3UzV2ZVh6V29CdFBPTnNEYzNJS3MvNzVKYVNZWUphY1M4WFVKRHc9PQo=",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV_0.3.2_amd64.AppImage"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VHVrclp1dXdZN0NKbXdURllPaXF0MG9pOXA5aTBFUzFSTWEwUjVlUS9qSExFaWFjeGE4MlpId3pTSHVzZ3I1WnZaMTVYZzN2aG1vRURCWk04bUVYQWdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgxMzMxCWZpbGU6QWV0aGVyIERWXzAuMy4zX2FtZDY0LkFwcEltYWdlCXZlcnNpb246MC4zLjMKR3dxYVFuWnJPMllSTTkrK3k4QUlZdUQxVFJKL29MK1FVd3JZOWdBMHN5VVYvWm5KVldQZGVrem95SkpmYytXY2t3YmppSFpSU1B6SnAwUTE3MDlBQ1E9PQo=",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV_0.3.3_amd64.AppImage"
     },
     "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VGh2eUZlaElCTXlUOUFLSEphR2QyTEVkdUY1N2FKcFp4M3Q1SGV6eHRFdzR0c1FYcHUzM2k5QjlvTVZNd1phWXRYQlR6Q1BBdTVNaWJCVWZ2R2I5MUFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ2ODY5CWZpbGU6QWV0aGVyIERWXzAuMy4yX2FtZDY0LkFwcEltYWdlCXZlcnNpb246MC4zLjIKeU8vWWEvblhUK2sveEZ5S2d4WVo1bExnSVZXODJvdHJyUER6M2JTQ1Z0cVREZEx3UzV2ZVh6V29CdFBPTnNEYzNJS3MvNzVKYVNZWUphY1M4WFVKRHc9PQo=",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV_0.3.2_amd64.AppImage"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VHVrclp1dXdZN0NKbXdURllPaXF0MG9pOXA5aTBFUzFSTWEwUjVlUS9qSExFaWFjeGE4MlpId3pTSHVzZ3I1WnZaMTVYZzN2aG1vRURCWk04bUVYQWdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgxMzMxCWZpbGU6QWV0aGVyIERWXzAuMy4zX2FtZDY0LkFwcEltYWdlCXZlcnNpb246MC4zLjMKR3dxYVFuWnJPMllSTTkrK3k4QUlZdUQxVFJKL29MK1FVd3JZOWdBMHN5VVYvWm5KVldQZGVrem95SkpmYytXY2t3YmppSFpSU1B6SnAwUTE3MDlBQ1E9PQo=",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV_0.3.3_amd64.AppImage"
     },
     "linux-x86_64-deb": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VHJ2NmhKKzNHUWtDMTk1TXFxSTdFMHdWaVF2a3ZHaCtySGVxbEI5V3QwcngxcnhwTzhTblgxYVUzOFhaWTZyUXc0SUp4dVIrOWlDbko1SkxCaXZlelFRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ2ODY5CWZpbGU6QWV0aGVyIERWXzAuMy4yX2FtZDY0LmRlYgl2ZXJzaW9uOjAuMy4yCmJvUW14MUtYWEtvTXVqUm5oZThjUU9kMGs2STJVd0hKV1hOQmpQc3dNYUx2ekkva3orUDBnWlUxbUMwMyttTERRNWt5TE1wakVzZ01JZEdwL0JNb0FBPT0K",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV_0.3.2_amd64.deb"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VGtHVFUxWE5aeVA4UDdsWjhtS1lMVVJEOTBFTzVKRENVRHgxVFRLSUdJNEtzNWpGblJkcjQ0NDFjbGdEOFdNblV6T3hMcDVTb0dqeDhUdVJxSy84a3dVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgxMzMxCWZpbGU6QWV0aGVyIERWXzAuMy4zX2FtZDY0LmRlYgl2ZXJzaW9uOjAuMy4zCkJsVHM0T29ROGdYYUpZc2VKRnJMdEMvRElRS0ZjWXdZSnVLT3dRVWRINnVtVHUxeGllQUdjQTk2YzN0WnhBanZPMFYwTXRYYXdISjFXRC9QWmdOUUF3PT0K",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV_0.3.3_amd64.deb"
     },
     "windows-x86_64-nsis": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VHVyZUhTTUQ4VW03YW1qNGR5YWtJbVFNc0VNS0dOVFlFeFMrM3I1am5SRnVoS1UxbXFYTEdxbVo2RXNJSS9OZE5idkcyUm9KQmZFVjlGTXVnYUlERlFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ2OTgwCWZpbGU6QWV0aGVyIERWXzAuMy4yX3g2NC1zZXR1cC5leGUJdmVyc2lvbjowLjMuMgpscHNTSC9sT2o2d1U5Slc5OVI1VEhHSUJKL0pmOTFmQjZyV05IMm5PODMxcC83cVh5UlVwanBFb3hZeElVUy9Ka05RNnhINGpnN2MxOC9SbG8zdGhBdz09Cg==",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV_0.3.2_x64-setup.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VG5kaERISnJDT29aUE9qd1MwTFJ1UmRaUE1ZVzNZeFZPQnAyK0FJWS9LS010VVB1dzl6c0N1dE5scVExWk9HWVNUNExqdTFBNUJ0QmdvTWJaUG5GRVE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgxNzQ5CWZpbGU6QWV0aGVyIERWXzAuMy4zX3g2NC1zZXR1cC5leGUJdmVyc2lvbjowLjMuMwppWURnbDZQYi9MMWZla1pjM0I4dnVkUTVvS3RJZEtudkxDUWd6UlJYdDdicGd2ZGRSb1p0M0NUWXVOM3JRNUpjVnNrdG85SSs5VmZWU0lJWnc0K3NEZz09Cg==",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV_0.3.3_x64-setup.exe"
     },
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VHVyZUhTTUQ4VW03YW1qNGR5YWtJbVFNc0VNS0dOVFlFeFMrM3I1am5SRnVoS1UxbXFYTEdxbVo2RXNJSS9OZE5idkcyUm9KQmZFVjlGTXVnYUlERlFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ2OTgwCWZpbGU6QWV0aGVyIERWXzAuMy4yX3g2NC1zZXR1cC5leGUJdmVyc2lvbjowLjMuMgpscHNTSC9sT2o2d1U5Slc5OVI1VEhHSUJKL0pmOTFmQjZyV05IMm5PODMxcC83cVh5UlVwanBFb3hZeElVUy9Ka05RNnhINGpnN2MxOC9SbG8zdGhBdz09Cg==",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV_0.3.2_x64-setup.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VG5kaERISnJDT29aUE9qd1MwTFJ1UmRaUE1ZVzNZeFZPQnAyK0FJWS9LS010VVB1dzl6c0N1dE5scVExWk9HWVNUNExqdTFBNUJ0QmdvTWJaUG5GRVE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgxNzQ5CWZpbGU6QWV0aGVyIERWXzAuMy4zX3g2NC1zZXR1cC5leGUJdmVyc2lvbjowLjMuMwppWURnbDZQYi9MMWZla1pjM0I4dnVkUTVvS3RJZEtudkxDUWd6UlJYdDdicGd2ZGRSb1p0M0NUWXVOM3JRNUpjVnNrdG85SSs5VmZWU0lJWnc0K3NEZz09Cg==",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV_0.3.3_x64-setup.exe"
     },
     "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VG9JUTJ1YjBhVjZhbDlaZzZTWUU4Sm1EZy9JbGFJakd1S0NxMlI1amorbjZaZExaOGxFcStTdGxzNEJTM3hrTXYrdFBTLzY1OEN1TTdXN01EMGljUmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODQ2OTgwCWZpbGU6QWV0aGVyIERWXzAuMy4yX3g2NF9lbi1VUy5tc2kJdmVyc2lvbjowLjMuMgpkTUZWQlhOaHo4clFDZE80MkhIY2hNOUxHQVFJRXVtZkw0WVhTa21iMEhqSCtHVjBUUklVM2ZmeVFkeTF2VzNZSjRpdmVZTFI5ODM1SWxxZTdNQStEdz09Cg==",
-      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.2/Aether-DV_0.3.2_x64_en-US.msi"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRakhiRDZHTjA1VHU0NGUxdkl6ZWVmemZSUkpoVkRKOEZ1OU1JdDVSTmVoUzAyaFdPUE9BcXZjeFFWcGhlSTMySWNrWk9Ca0ZHOXNYM3JzNFREaWRSRGszYUVPOWZxaUFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODgxNzQ5CWZpbGU6QWV0aGVyIERWXzAuMy4zX3g2NF9lbi1VUy5tc2kJdmVyc2lvbjowLjMuMwp2MWVrRnJqOWlxczFEanFjVGtOYjJuZWdIL0c5bWNxajVHeXFGQm1mQmhRL09nRWt3QnBTMHZodGUzdm5qdHR4c1BMd25zdVJ0Wm1vUDVOUVpvdGlDdz09Cg==",
+      "url": "https://github.com/KK4ODA/aether-dv-releases/releases/download/v0.3.3/Aether-DV_0.3.3_x64_en-US.msi"
     }
   }
 }
